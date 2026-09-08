@@ -119,6 +119,8 @@ export default function Play() {
         onPreviousQuestion={handlePreviousQuestion}
         onSubmit={handleSubmit}
         isLastQuestion={currQArrIndex === quiz.questions.length - 1}
+        isFirstQuestion={currQArrIndex === 0}
+        questionIndex={currQArrIndex}
       />
     </>
   )

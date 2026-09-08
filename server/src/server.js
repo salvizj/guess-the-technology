@@ -9,13 +9,16 @@ const __dirname = path.dirname(__filename)
 
 const app = express()
 
-app.use(express.json())
+app.use(express.json({ limit: "50mb" }))
+app.use(express.urlencoded({ limit: "50mb", extended: true }))
 app.use(cookieParser())
+
 app.use("/api", routes)
 
-const clientBuildPath = path.resolve(__dirname, "../../client/build/client")
 const uploadsPath = path.resolve(__dirname, "public/uploads")
 app.use("/uploads", express.static(uploadsPath))
+
+const clientBuildPath = path.resolve(__dirname, "../../client/build/client")
 app.use(express.static(clientBuildPath))
 
 app.get("{*splat}", (req, res) => {
