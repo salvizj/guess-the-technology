@@ -14,7 +14,8 @@ app.use(cookieParser())
 app.use("/api", routes)
 
 const clientBuildPath = path.resolve(__dirname, "../../client/build/client")
-
+const uploadsPath = path.resolve(__dirname, "public/uploads")
+app.use("/uploads", express.static(uploadsPath))
 app.use(express.static(clientBuildPath))
 
 app.get("{*splat}", (req, res) => {

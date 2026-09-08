@@ -1,6 +1,13 @@
 import { eq } from "drizzle-orm"
 import { db } from "../db/db.js"
 import { quizzes, questions, answers, scores } from "../db/schema.js"
+import fs from "fs/promises"
+import path from "path"
+import { saveImage } from "../utils/utils.js"
+import { fileURLToPath } from "node:url"
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 
 export const postCreateQuiz = async (req, res) => {
   try {
@@ -17,6 +24,17 @@ export const postCreateQuiz = async (req, res) => {
       })
     }
 
+    const uploadDir = path.join(__dirname, "../../../client/public/uploads")
+    await fs.mkdir(uploadDir, { recursive: true })
+
+    const processedQuestions = await Promise.all(
+      questionsData.map(async (q) => ({
+        ...q,
+        finalImageUrl:
+          (await saveImage(q.image)) || q.image_url || q.imageUrl || null,
+      })),
+    )
+
     const newQuiz = db.transaction((tx) => {
       const quiz = tx
         .insert(quizzes)
@@ -24,14 +42,14 @@ export const postCreateQuiz = async (req, res) => {
         .returning()
         .get()
 
-      for (const q of questionsData) {
+      for (const q of processedQuestions) {
         const question = tx
           .insert(questions)
           .values({
             quizId: quiz.id,
             title: q.title,
             description: q.description,
-            imageUrl: q.image_url || q.imageUrl,
+            imageUrl: q.finalImageUrl,
             difficulty: q.difficulty,
             category: q.category,
           })

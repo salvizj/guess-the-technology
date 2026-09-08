@@ -10,7 +10,11 @@ export const answerSchema = z.object({
 
 export const questionSchema = z.object({
   title: z.string().min(3, "Question title must be at least 3 characters"),
-  image_url: z.url({ message: "Must be a valid URL" }).or(z.literal("")),
+  image: z
+    .string()
+    .refine((val) => val === "" || val.startsWith("data:image/"), {
+      message: "Must be a valid image file (PNG, JPEG, WebP, GIF, SVG)",
+    }),
   difficulty: z.enum(["easy", "medium", "hard"], {
     message: "Select a valid difficulty",
   }),

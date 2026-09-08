@@ -8,6 +8,7 @@ type BaseField = {
   label: string
   placeholder?: string
   error?: string
+  accept?: string
 }
 
 export type PrimitiveFieldConfig = BaseField & {
@@ -23,7 +24,7 @@ export type PrimitiveFieldConfig = BaseField & {
   value: any
   options?: string[]
   onRemove?: () => void
-  onChange: (value: any) => void
+  onChange: (valueOrEvent: any) => void
 }
 
 export type ArrayFieldConfig = BaseField & {

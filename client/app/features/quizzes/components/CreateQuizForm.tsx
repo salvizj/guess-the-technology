@@ -24,7 +24,7 @@ const CreateQuizForm = ({
     questions: [
       {
         title: "",
-        image_url: "",
+        image: "",
         difficulty: "easy",
         category: "",
         answers: [
@@ -67,7 +67,7 @@ const CreateQuizForm = ({
         ...prev.questions,
         {
           title: "",
-          image_url: "",
+          image: "",
           difficulty: "easy",
           category: "",
           answers: [
@@ -161,22 +161,32 @@ const CreateQuizForm = ({
           },
         },
         {
-          name: `questions.${qIndex}.image_url`,
-          label: "Image URL",
-          type: "text",
-          placeholder: "http://example.com/image.png",
-          value: question.image_url,
-          error: validationErrors[`questions.${qIndex}.image_url`],
-          onChange: (value) => {
-            ;(setFormData((prev) => {
-              const nextQuestions = [...prev.questions]
-              nextQuestions[qIndex].image_url = value
-              return { ...prev, questions: nextQuestions }
-            }),
-              clearFieldError(
-                `questions.${qIndex}.image_url`,
-                setValidationErrors,
-              ))
+          name: `questions.${qIndex}.image`,
+          label: "Image",
+          type: "file",
+          accept: "image/png, image/jpeg, image/webp, image/gif, image/svg+xml",
+          error: validationErrors[`questions.${qIndex}.image`],
+          value: "",
+          onChange: (e: React.ChangeEvent<HTMLInputElement> | File) => {
+            const file = e instanceof File ? e : e.target?.files?.[0]
+            if (!file) return
+
+            const reader = new FileReader()
+            reader.onload = () => {
+              if (typeof reader.result === "string") {
+                const base64String = reader.result
+                setFormData((prev) => {
+                  const nextQuestions = [...prev.questions]
+                  nextQuestions[qIndex].image = base64String
+                  return { ...prev, questions: nextQuestions }
+                })
+                clearFieldError(
+                  `questions.${qIndex}.image`,
+                  setValidationErrors,
+                )
+              }
+            }
+            reader.readAsDataURL(file)
           },
         },
         {
