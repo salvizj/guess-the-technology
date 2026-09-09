@@ -1,14 +1,13 @@
 import { useEffect, useState } from "react"
-import useQuiz from "../../features/quizzes/hooks/useQuiz"
 import type { Quiz } from "../../types/types"
 import type { Route } from "./+types/preview"
 import { useNavigate, useParams } from "react-router"
-import id from "zod/v4/locales/id.js"
 import { Button } from "../../components/base/Button"
 import { timestampToDate } from "../../utils/timestampToDate"
 import { calculateQuizDifficulty } from "../../utils/quizDifficullty"
 import { Pill } from "../../components/base/Pill"
 import { CalendarIcon, CircleQuestionMark, Swords } from "lucide-react"
+import { useQuiz } from "../../features/quizzes/hooks/useQuiz"
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -24,10 +23,11 @@ export default function Preview() {
   const [quiz, setQuiz] = useState<Quiz | null>(null)
 
   useEffect(() => {
+    if (!id) return
     getQuiz(id as string)
       .then((data) => setQuiz(data))
       .catch(() => {})
-  }, [getQuiz])
+  }, [id])
 
   const handlePlayQuiz = () => {
     navigate(`/play/${id}`)

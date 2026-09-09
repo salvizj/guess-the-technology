@@ -8,7 +8,7 @@ import {
 import type { RegisterSchema } from "../schemas/registerSchema"
 import type { LoginSchema } from "../schemas/loginSchema"
 
-const useAuth = () => {
+export const useAuth = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const executeLogin = async (data: LoginSchema) => {
@@ -74,4 +74,3 @@ const useAuth = () => {
     executeVerifyJWT,
   }
 }
-export default useAuth

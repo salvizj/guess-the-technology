@@ -1,7 +1,7 @@
-import LoginForm from "../../features/auth/components/LoginForm"
 import type { Route } from "./+types/login"
 import type { LoginSchema } from "../../schemas/loginSchema"
 import { useAuthContext } from "../../context/useAuthContext"
+import { LoginForm } from "../../features/auth/components/LoginForm"
 
 export function meta({}: Route.MetaArgs) {
   return [

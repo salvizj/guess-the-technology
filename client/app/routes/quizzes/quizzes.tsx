@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react"
-import useQuiz from "../../features/quizzes/hooks/useQuiz"
 import type { Route } from "./+types/quizzes"
 import type { Quiz } from "../../types/types"
 import { QuizCard } from "../../features/quizzes/components/QuizCard"
+import { useQuiz } from "../../features/quizzes/hooks/useQuiz"
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -19,7 +19,7 @@ export default function Quizzes() {
     getQuizzes()
       .then((data) => setQuizzes(data))
       .catch(() => {})
-  }, [getQuizzes])
+  }, [])
 
   return (
     <>

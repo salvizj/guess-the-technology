@@ -12,7 +12,7 @@ type LoginFormProps = {
   error?: string | null
 }
 
-const LoginForm = ({
+export const LoginForm = ({
   onSubmit,
   submitLabel = "Login",
   isLoading,
@@ -85,5 +85,3 @@ const LoginForm = ({
     </div>
   )
 }
-
-export default LoginForm

@@ -4,7 +4,7 @@ type CardProps = {
   onClick?: () => void
 }
 
-export default function Card({ children, className, onClick }: CardProps) {
+export const Card = ({ children, className, onClick }: CardProps) => {
   return (
     <div
       className={`rounded-lg border border-border bg-surface-elevated p-4 text-content shadow-sm hover:border-primary-light transition-colors cursor-pointer ${className}`}

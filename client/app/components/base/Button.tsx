@@ -10,6 +10,7 @@ type ButtonProps = {
   noFocus?: boolean
   className?: string
   isActive?: boolean
+  disabled?: boolean
 }
 
 export const variantClasses = {
@@ -26,6 +27,31 @@ export const variantClasses = {
   danger:
     "bg-[var(--color-error)] text-white border border-[var(--color-error)] hover:opacity-90",
 }
+
+export const getResultVariant = (isSelected: boolean, isCorrect: boolean) => {
+  if (isCorrect) {
+    return {
+      variant: "primary" as const,
+      className:
+        "bg-success text-success-content border-success hover:bg-success cursor-default",
+    }
+  }
+
+  if (isSelected) {
+    return {
+      variant: "danger" as const,
+      className:
+        "bg-error text-error-content border-error hover:bg-error cursor-default",
+    }
+  }
+
+  return {
+    variant: "outline" as const,
+    className:
+      "opacity-60 cursor-default border-border text-muted-foreground hover:bg-transparent",
+  }
+}
+
 export const activeClasses = {
   primary:
     "bg-[var(--color-primary-dark)] text-white border border-[var(--color-primary-dark)] font-semibold ring-2 ring-[var(--color-primary)]/20",
@@ -50,6 +76,7 @@ export const Button = ({
   noFocus = true,
   className = "",
   isActive = false,
+  disabled = false,
   ...rest
 }: ButtonProps) => {
   const base =
@@ -70,6 +97,7 @@ export const Button = ({
         onClick?.()
       }}
       className={`${base} ${spacing} ${focus} ${appliedVariant} ${className}`}
+      disabled={disabled}
       {...rest}
     >
       {children}

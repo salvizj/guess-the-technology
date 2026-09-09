@@ -30,6 +30,7 @@ const fetchGetScoresByQuizId = async (id: string) => {
 
   return res.json()
 }
+
 const fetchGetScoresByUserId = async (id: string) => {
   const res = await fetch(`/api/user/${id}/scores`, {
     method: "GET",
@@ -44,4 +45,24 @@ const fetchGetScoresByUserId = async (id: string) => {
 
   return res.json()
 }
-export { fetchCreateScore, fetchGetScoresByQuizId, fetchGetScoresByUserId }
+
+const fetchGetScoreByScoreId = async (id: string) => {
+  const res = await fetch(`/api/score/${id}`, {
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",
+  })
+
+  if (!res.ok) {
+    const errorData = await res.json().catch(() => ({}))
+    throw new Error(errorData.message || "Fetching score failed")
+  }
+
+  return res.json()
+}
+export {
+  fetchCreateScore,
+  fetchGetScoresByQuizId,
+  fetchGetScoresByUserId,
+  fetchGetScoreByScoreId,
+}

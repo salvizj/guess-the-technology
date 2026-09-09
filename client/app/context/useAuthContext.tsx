@@ -5,10 +5,10 @@ import {
   useState,
   type ReactNode,
 } from "react"
-import useAuth from "../hooks/useAuth"
 import type { RegisterSchema } from "../schemas/registerSchema"
 import type { LoginSchema } from "../schemas/loginSchema"
 import { useNavigate } from "react-router"
+import { useAuth } from "../hooks/useAuth"
 
 type AuthContextType = {
   isAuthenticated: boolean

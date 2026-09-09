@@ -15,7 +15,7 @@ type RegisterFormProps = {
   error?: string | null
 }
 
-const RegisterForm = ({
+export const RegisterForm = ({
   onSubmit,
   submitLabel = "Register",
   isLoading,
@@ -115,5 +115,3 @@ const RegisterForm = ({
     </div>
   )
 }
-
-export default RegisterForm

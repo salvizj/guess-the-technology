@@ -1,8 +1,9 @@
-import { Navigate, Outlet, Link } from "react-router"
+import { Navigate, Outlet } from "react-router"
 import { useAuthContext } from "../../context/useAuthContext"
-import Sidebar from "../../components/AdminSidebar"
+import { Sidebar } from "lucide-react"
 
-export default function AdminLayout() {
+
+export default function AdminLayout () {
   const { isAuthenticated, isAdmin, isLoading } = useAuthContext()
 
   if (isLoading) return <div className="p-6">Loading...</div>
@@ -18,4 +19,4 @@ export default function AdminLayout() {
       </section>
     </div>
   )
-}
+})

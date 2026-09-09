@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react"
+import { useState } from "react"
 import {
   fetchCreateQuiz,
   fetchDeleteQuiz,
@@ -9,16 +9,17 @@ import {
 import type { QuizSchema } from "../../../schemas/quizSchema"
 import {
   fetchCreateScore,
+  fetchGetScoreByScoreId,
   fetchGetScoresByQuizId,
   fetchGetScoresByUserId,
 } from "../api/score"
 import type { ScoreSchema } from "../../../schemas/scoreSchema"
 
-const useQuiz = () => {
+export const useQuiz = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  const createQuiz = useCallback(async (data: QuizSchema) => {
+  const createQuiz = async (data: QuizSchema) => {
     setIsLoading(true)
     setError(null)
     try {
@@ -32,9 +33,9 @@ const useQuiz = () => {
     } finally {
       setIsLoading(false)
     }
-  }, [])
+  }
 
-  const updateQuiz = useCallback(async (id: string, data: QuizSchema) => {
+  const updateQuiz = async (id: string, data: QuizSchema) => {
     setIsLoading(true)
     setError(null)
     try {
@@ -48,9 +49,9 @@ const useQuiz = () => {
     } finally {
       setIsLoading(false)
     }
-  }, [])
+  }
 
-  const deleteQuiz = useCallback(async (id: string) => {
+  const deleteQuiz = async (id: string) => {
     setIsLoading(true)
     setError(null)
     try {
@@ -64,9 +65,9 @@ const useQuiz = () => {
     } finally {
       setIsLoading(false)
     }
-  }, [])
+  }
 
-  const getQuiz = useCallback(async (id: string) => {
+  const getQuiz = async (id: string) => {
     setIsLoading(true)
     setError(null)
     try {
@@ -80,9 +81,9 @@ const useQuiz = () => {
     } finally {
       setIsLoading(false)
     }
-  }, [])
+  }
 
-  const getQuizzes = useCallback(async () => {
+  const getQuizzes = async () => {
     setIsLoading(true)
     setError(null)
     try {
@@ -96,9 +97,9 @@ const useQuiz = () => {
     } finally {
       setIsLoading(false)
     }
-  }, [])
+  }
 
-  const getScoresByQuizId = useCallback(async (id: string) => {
+  const getScoresByQuizId = async (id: string) => {
     setIsLoading(true)
     setError(null)
     try {
@@ -112,9 +113,9 @@ const useQuiz = () => {
     } finally {
       setIsLoading(false)
     }
-  }, [])
+  }
 
-  const getScoresByUserId = useCallback(async (id: string) => {
+  const getScoresByUserId = async (id: string) => {
     setIsLoading(true)
     setError(null)
     try {
@@ -128,9 +129,25 @@ const useQuiz = () => {
     } finally {
       setIsLoading(false)
     }
-  }, [])
+  }
 
-  const createScore = useCallback(async (data: ScoreSchema, id: string) => {
+  const getScoreByScoreId = async (id: string) => {
+    setIsLoading(true)
+    setError(null)
+    try {
+      const response = await fetchGetScoreByScoreId(id)
+      return response
+    } catch (error) {
+      const message =
+        error instanceof Error ? error.message : "Failed to fetch score"
+      setError(message)
+      throw error
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  const createScore = async (data: ScoreSchema, id: string) => {
     setIsLoading(true)
     setError(null)
     try {
@@ -144,7 +161,7 @@ const useQuiz = () => {
     } finally {
       setIsLoading(false)
     }
-  }, [])
+  }
 
   return {
     isLoading,
@@ -156,8 +173,7 @@ const useQuiz = () => {
     getQuizzes,
     getScoresByQuizId,
     getScoresByUserId,
+    getScoreByScoreId,
     createScore,
   }
 }
-
-export default useQuiz

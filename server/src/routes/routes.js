@@ -26,6 +26,7 @@ router.get("/quiz/:id", quizController.getQuizById)
 router.post("/quiz/:id/score", requireAuth, quizController.postCreateScore)
 router.get("/quiz/:id/scores", requireAuth, quizController.getScoresByQuizId)
 router.get("/user/:id/scores", requireAuth, quizController.getScoresByUserId)
+router.get("/score/:id", requireAuth, quizController.getScoreByScoreId)
 
 //admin-protected quiz routes
 router.post("/quiz", requireAuth, requireAdmin, quizController.postCreateQuiz)

@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react"
 import type { Route } from "./+types/play"
-import { PlayQuestion } from "../../features/quizzes/components/PlayQuestion"
-import useQuiz from "../../features/quizzes/hooks/useQuiz"
+import { QuizQuestionCard } from "../../features/quizzes/components/QuizQuestionCard"
 import type { Quiz } from "../../types/types"
 import { useNavigate, useParams } from "react-router"
 import { useAuthContext } from "../../context/useAuthContext"
+import { useQuiz } from "../../features/quizzes/hooks/useQuiz"
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -25,10 +25,11 @@ export default function Play() {
   >({}) //questionId, answerId
 
   useEffect(() => {
+    if (!id) return
     getQuiz(id as string)
       .then((data) => setQuiz(data))
       .catch(() => {})
-  }, [getQuiz])
+  }, [id])
 
   if (isLoading) {
     return <p>Loading...</p>
@@ -54,18 +55,19 @@ export default function Play() {
   }
 
   const handleAnswer = (questionId: string, answerId: string) => {
-    //remove answer if already selected, otherwise add it to the selected answers
-    if (selectedAnswerIds[questionId]?.includes(answerId)) {
-      setSelectedAnswerIds((prevAnswers) => ({
+    setSelectedAnswerIds((prevAnswers) => {
+      const currentAnswers = prevAnswers[questionId] || []
+      const exists = currentAnswers.includes(answerId)
+
+      const updatedAnswers = exists
+        ? currentAnswers.filter((id) => id !== answerId)
+        : [...currentAnswers, answerId]
+
+      return {
         ...prevAnswers,
-        [questionId]: prevAnswers[questionId]?.filter((id) => id !== answerId),
-      }))
-    } else {
-      setSelectedAnswerIds((prevAnswers) => ({
-        ...prevAnswers,
-        [questionId]: [...(prevAnswers[questionId] || []), answerId],
-      }))
-    }
+        [questionId]: updatedAnswers,
+      }
+    })
   }
   const handleSubmit = async () => {
     try {
@@ -73,6 +75,7 @@ export default function Play() {
         userId: userId as number,
         quizId: quiz.id,
         score: calculateScore(),
+        userAnswers: selectedAnswerIds,
       }
 
       const res = await createScore(scoreData, String(quiz.id))
@@ -111,16 +114,17 @@ export default function Play() {
   }
   return (
     <>
-      <PlayQuestion
+      <QuizQuestionCard
         question={quiz.questions[currQArrIndex]}
         onAnswer={handleAnswer}
-        selectedAnswerIds={selectedAnswerIds}
+        selectedAnswers={selectedAnswerIds[quiz.questions[currQArrIndex].id]}
         onNextQuestion={handleNextQuestion}
         onPreviousQuestion={handlePreviousQuestion}
         onSubmit={handleSubmit}
         isLastQuestion={currQArrIndex === quiz.questions.length - 1}
         isFirstQuestion={currQArrIndex === 0}
         questionIndex={currQArrIndex}
+        mode={"quiz"}
       />
     </>
   )

@@ -9,3 +9,4 @@ node_modules/
 *.db
 **database.sqlite
 **/public/uploads
+**/drizzle/*

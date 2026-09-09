@@ -1,7 +1,7 @@
 import { Outlet } from "react-router"
-import Navbar from "../../components/Navbar"
 import { Footer } from "../../components/Footer"
 import { useTheme } from "../../hooks/useTheme"
+import { Navbar } from "../../components/Navbar"
 
 export default function MainLayout() {
   const { themeToggle } = useTheme()

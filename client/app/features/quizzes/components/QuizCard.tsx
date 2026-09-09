@@ -1,10 +1,10 @@
 import { CalendarIcon, CircleQuestionMark, Swords } from "lucide-react"
-import Card from "../../../components/base/Card"
 import { Pill } from "../../../components/base/Pill"
 import type { Quiz } from "../../../types/types"
 import { useNavigate } from "react-router"
 import { timestampToDate } from "../../../utils/timestampToDate"
 import { calculateQuizDifficulty } from "../../../utils/quizDifficullty"
+import { Card } from "../../../components/base/Card"
 
 type QuizCardProps = {
   quiz: Quiz

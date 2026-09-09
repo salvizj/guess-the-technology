@@ -1,7 +1,7 @@
-import RegisterForm from "../../features/auth/components/RegisterForm"
 import type { Route } from "./+types/register"
 import type { RegisterSchema } from "../../schemas/registerSchema"
 import { useAuthContext } from "../../context/useAuthContext"
+import { RegisterForm } from "../../features/auth/components/RegisterForm"
 
 export function meta({}: Route.MetaArgs) {
   return [

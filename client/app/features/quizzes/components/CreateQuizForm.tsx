@@ -12,7 +12,7 @@ type CreateQuizFormProps = {
   error?: string | null
 }
 
-const CreateQuizForm = ({
+export const CreateQuizForm = ({
   onSubmit,
   submitLabel = "Create Quiz",
   isLoading,
@@ -298,5 +298,3 @@ const CreateQuizForm = ({
     </div>
   )
 }
-
-export default CreateQuizForm

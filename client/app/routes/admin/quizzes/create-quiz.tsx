@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router"
-import CreateQuizForm from "../../../features/quizzes/components/CreateQuizForm"
-import useQuiz from "../../../features/quizzes/hooks/useQuiz"
 import type { QuizSchema } from "../../../schemas/quizSchema"
 import type { Route } from "./+types/create-quiz"
+import { useQuiz } from "../../../features/quizzes/hooks/useQuiz"
+import { CreateQuizForm } from "../../../features/quizzes/components/CreateQuizForm"
 
 export function meta({}: Route.MetaArgs) {
   return [

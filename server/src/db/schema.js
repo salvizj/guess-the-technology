@@ -50,6 +50,7 @@ export const scores = sqliteTable("scores", {
     .notNull()
     .references(() => quizzes.id, { onDelete: "cascade" }),
   score: integer("score").notNull(),
+  userAnswers: text("user_answers", { mode: "json" }).notNull(),
   createdAt: text("created_at").default(sql`(CURRENT_TIMESTAMP)`),
 })
 
@@ -61,6 +62,7 @@ export const usersRelations = relations(users, ({ many }) => ({
 
 export const quizzesRelations = relations(quizzes, ({ many }) => ({
   questions: many(questions),
+  scores: many(scores),
 }))
 
 export const questionsRelations = relations(questions, ({ many, one }) => ({
@@ -82,5 +84,9 @@ export const scoresRelations = relations(scores, ({ one }) => ({
   user: one(users, {
     fields: [scores.userId],
     references: [users.id],
+  }),
+  quiz: one(quizzes, {
+    fields: [scores.quizId],
+    references: [quizzes.id],
   }),
 }))

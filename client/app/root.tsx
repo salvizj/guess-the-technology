@@ -11,7 +11,6 @@ import {
 import type { Route } from "./+types/root"
 import "./app.css"
 import { getTheme } from "./utils/theme"
-import MainLayout from "./routes/layouts/MainLayout"
 import { AuthProvider } from "./context/useAuthContext"
 
 export const links: Route.LinksFunction = () => [

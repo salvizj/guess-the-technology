@@ -209,6 +209,7 @@ export const deleteQuiz = async (req, res) => {
     return res.status(500).json({ message: "Internal server error" })
   }
 }
+
 export const getScoresByQuizId = async (req, res) => {
   try {
     const quizId = parseInt(req.params.id, 10)
@@ -241,10 +242,30 @@ export const getScoresByUserId = async (req, res) => {
   }
 }
 
+export const getScoreByScoreId = async (req, res) => {
+  try {
+    const scoreId = parseInt(req.params.id, 10)
+    if (isNaN(scoreId)) {
+      return res.status(400).json({ message: "Invalid score ID" })
+    }
+
+    const [score] = await db.select().from(scores).where(eq(scores.id, scoreId))
+
+    if (!score) {
+      return res.status(404).json({ message: "Score not found" })
+    }
+
+    return res.status(200).json(score)
+  } catch (error) {
+    console.error("Get Scores By Score ID Error:", error)
+    return res.status(500).json({ message: "Internal server error" })
+  }
+}
+
 export const postCreateScore = async (req, res) => {
   try {
     const quizId = parseInt(req.params.id, 10)
-    const { score } = req.body
+    const { score, userAnswers } = req.body
 
     if (isNaN(quizId)) {
       return res.status(400).json({ message: "Invalid quiz ID" })
@@ -254,12 +275,17 @@ export const postCreateScore = async (req, res) => {
       return res.status(400).json({ message: "Score must be a number" })
     }
 
+    if (!userAnswers || typeof userAnswers !== "object") {
+      return res.status(400).json({ message: "Invalid user answers payload" })
+    }
+
     const newScore = db
       .insert(scores)
       .values({
         quizId,
         userId: req.userId,
         score,
+        userAnswers,
       })
       .returning()
       .get()
@@ -282,5 +308,6 @@ export default {
   deleteQuiz,
   getScoresByQuizId,
   getScoresByUserId,
+  getScoreByScoreId,
   postCreateScore,
 }

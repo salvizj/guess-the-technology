@@ -7,7 +7,7 @@ type NavbarProps = {
   themeToggle: () => void
 }
 
-export default function Navbar({ themeToggle }: NavbarProps) {
+export const Navbar = ({ themeToggle }: NavbarProps) => {
   const { isAuthenticated, handleLogout, isAdmin } = useAuthContext()
   return (
     <header className="border-b border-border bg-surface-elevated px-4">

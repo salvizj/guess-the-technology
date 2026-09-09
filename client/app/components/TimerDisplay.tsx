@@ -2,7 +2,7 @@ type TimerDisplayProps = {
   timeLeftInSeconds: number
 }
 
-const TimerDisplay = ({ timeLeftInSeconds }: TimerDisplayProps) => {
+export const TimerDisplay = ({ timeLeftInSeconds }: TimerDisplayProps) => {
   const minutes = Math.floor(timeLeftInSeconds / 60)
   const seconds = timeLeftInSeconds % 60
 
@@ -12,4 +12,3 @@ const TimerDisplay = ({ timeLeftInSeconds }: TimerDisplayProps) => {
     </div>
   )
 }
-export default TimerDisplay

@@ -7,6 +7,6 @@ export function meta({}: Route.MetaArgs) {
   ]
 }
 
-export default function Profile() {
+export const Profile = () => {
   return <>Profile</>
 }

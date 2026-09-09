@@ -76,5 +76,8 @@ export type Score = {
   id: number
   userId: number
   score: number
+  quizId: number
   createdAt: string
+  userAnswers: Record<string, string[]>
 }
+export type QuizQuestionCardMode = "quiz" | "result"
