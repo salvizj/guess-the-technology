@@ -52,6 +52,7 @@ export type Quiz = {
   title: string
   description: string
   createdAt: string
+  category: string
   questions: Question[]
 }
 
@@ -61,7 +62,6 @@ export type Question = {
   title: string
   imageUrl: string
   difficulty: QuestionDifficulty
-  category: string
   answers: Answer[]
 }
 

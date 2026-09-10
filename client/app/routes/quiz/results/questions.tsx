@@ -1,9 +1,9 @@
-import { useParams } from "react-router"
-import type { Route } from "./+types/results"
+import { Navigate, useNavigate, useParams, useSearchParams } from "react-router"
+import type { Route } from "./+types/questions"
 import { useEffect, useState } from "react"
-import type { Quiz, Score } from "../../types/types"
-import { QuizQuestionCard } from "../../features/quizzes/components/QuizQuestionCard"
-import { useQuiz } from "../../features/quizzes/hooks/useQuiz"
+import type { Quiz, Score } from "../../../types/types"
+import { QuizQuestionCard } from "../../../features/quizzes/components/QuizQuestionCard"
+import { useQuiz } from "../../../features/quizzes/hooks/useQuiz"
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -12,12 +12,16 @@ export function meta({}: Route.MetaArgs) {
   ]
 }
 
-export default function Results() {
+export default function ResultsQuestions() {
   const { isLoading, error, getScoreByScoreId, getQuiz } = useQuiz()
   const { id } = useParams()
   const [score, setScore] = useState<Score | null>(null)
   const [quiz, setQuiz] = useState<Quiz | null>(null)
-  const [currQArrIndex, setCurrQArrIndex] = useState(0)
+
+  const navigate = useNavigate()
+  const [searchParams, setSearchParams] = useSearchParams()
+  const paramQ = parseInt(searchParams.get("q") || "1", 10)
+  const currQArrIndex = isNaN(paramQ) || paramQ < 1 ? 0 : paramQ - 1
 
   useEffect(() => {
     if (!id) return
@@ -32,6 +36,34 @@ export default function Results() {
       .then((data) => setQuiz(data))
       .catch(() => {})
   }, [score?.quizId])
+
+  useEffect(() => {
+    if (!searchParams.has("q")) {
+      setSearchParams({ q: "1" }, { replace: true })
+    }
+  }, [searchParams, setSearchParams])
+
+  useEffect(() => {
+    if (!quiz || !score) return
+
+    const rawQ = searchParams.get("q")
+    const parsedQ = parseInt(rawQ || "", 10)
+    const totalQuestions = quiz.questions.length
+
+    const isInvalid =
+      !rawQ || isNaN(parsedQ) || parsedQ < 1 || parsedQ > totalQuestions
+
+    if (isInvalid) {
+      setSearchParams(
+        (prev) => {
+          const next = new URLSearchParams(prev)
+          next.delete("q")
+          return next
+        },
+        { replace: true },
+      )
+    }
+  }, [quiz, searchParams, setSearchParams, score])
 
   if (isLoading) {
     return <p>Loading...</p>
@@ -50,15 +82,20 @@ export default function Results() {
 
   const handleNextQuestion = () => {
     if (quiz.questions.length - 1 > currQArrIndex) {
-      setCurrQArrIndex(currQArrIndex + 1)
+      setSearchParams({ q: String(currQArrIndex + 2) })
     }
   }
 
   const handlePreviousQuestion = () => {
     if (currQArrIndex > 0) {
-      setCurrQArrIndex(currQArrIndex - 1)
+      setSearchParams({ q: String(currQArrIndex) })
     }
   }
+
+  const handleToOverall = () => {
+    navigate(`/results/${id}`)
+  }
+
   return (
     <QuizQuestionCard
       question={quiz.questions[currQArrIndex]}
@@ -69,6 +106,7 @@ export default function Results() {
       isFirstQuestion={currQArrIndex === 0}
       questionIndex={currQArrIndex}
       mode={"result"}
+      onToOverall={handleToOverall}
     />
   )
 }

@@ -7,6 +7,7 @@ type QuizQuestionCardProps = {
   selectedAnswers: String[]
   onNextQuestion: () => void
   onPreviousQuestion: () => void
+  onToOverall?: () => void
   onSubmit?: () => void
   isLastQuestion: boolean
   isFirstQuestion: boolean
@@ -21,6 +22,7 @@ export const QuizQuestionCard = ({
   isLastQuestion,
   isFirstQuestion,
   onNextQuestion,
+  onToOverall,
   onPreviousQuestion,
   onSubmit,
   questionIndex,
@@ -92,9 +94,13 @@ export const QuizQuestionCard = ({
         )}
 
         {isLastQuestion ? (
-          !isResultMode && (
+          !isResultMode ? (
             <Button onClick={onSubmit} variant="primary">
               Submit
+            </Button>
+          ) : (
+            <Button onClick={onToOverall} variant="primary">
+              To Overall results
             </Button>
           )
         ) : (
@@ -103,6 +109,13 @@ export const QuizQuestionCard = ({
           </Button>
         )}
       </div>
+      {isResultMode && !isLastQuestion && (
+        <div className="flex pt-4">
+          <Button onClick={onToOverall} variant="primary">
+            Skip to Overall results
+          </Button>
+        </div>
+      )}
     </article>
   )
 }

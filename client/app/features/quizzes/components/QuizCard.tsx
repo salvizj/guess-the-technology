@@ -1,24 +1,21 @@
-import { CalendarIcon, CircleQuestionMark, Swords } from "lucide-react"
+import { Book, CalendarIcon, CircleQuestionMark, Swords } from "lucide-react"
 import { Pill } from "../../../components/base/Pill"
 import type { Quiz } from "../../../types/types"
-import { useNavigate } from "react-router"
 import { timestampToDate } from "../../../utils/timestampToDate"
 import { calculateQuizDifficulty } from "../../../utils/quizDifficullty"
 import { Card } from "../../../components/base/Card"
+import { useQuizNavigation } from "../hooks/useQuizNavigation"
 
 type QuizCardProps = {
   quiz: Quiz
 }
 export const QuizCard = ({ quiz }: QuizCardProps) => {
-  const navigate = useNavigate()
-  const handleRedirectToQuizPreview = () => {
-    navigate(`/quizzes/${quiz.id}`)
-  }
   const quizDifficulty = calculateQuizDifficulty(quiz)
+  const { handleRedirectToQuizPreview } = useQuizNavigation()
   return (
     <Card
       className="flex flex-col justify-between gap-4 border border-border bg-surface-secondary p-5 hover:border-primary hover:bg-surface-secondary/50 hover:shadow-md"
-      onClick={handleRedirectToQuizPreview}
+      onClick={() => handleRedirectToQuizPreview(String(quiz.id))}
     >
       <div className="space-y-1.5">
         <h3 className="line-clamp-1">{quiz.title}</h3>
@@ -36,6 +33,7 @@ export const QuizCard = ({ quiz }: QuizCardProps) => {
           {timestampToDate(quiz.createdAt, "short")}
         </Pill>
         <Pill icon={<Swords />}>Quiz difficulty: {quizDifficulty}</Pill>
+        <Pill icon={<Book />}> {quiz.category}</Pill>
       </div>
     </Card>
   )

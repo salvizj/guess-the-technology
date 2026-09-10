@@ -1,4 +1,10 @@
+import { useEffect, useState } from "react"
+import { useAuthContext } from "../context/useAuthContext"
+import { useQuiz } from "../features/quizzes/hooks/useQuiz"
 import type { Route } from "./+types/profile"
+import type { Score } from "../types/types"
+import { useNavigate } from "react-router"
+import { ProfileResultsQuizCard } from "../features/quizzes/components/ProfileResultsQuizCard"
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -7,6 +13,37 @@ export function meta({}: Route.MetaArgs) {
   ]
 }
 
-export const Profile = () => {
-  return <>Profile</>
+export default function Profile() {
+  const { getScoresByUserId, getQuiz, isLoading, error } = useQuiz()
+  const { userId } = useAuthContext()
+  const [scores, setScores] = useState<Score[]>([])
+
+  const navigate = useNavigate()
+  useEffect(() => {
+    if (!userId) return
+
+    getScoresByUserId(String(userId))
+      .then((data) => setScores(data))
+      .catch(() => {})
+  }, [])
+
+  if (isLoading) {
+    return <p>Loading...</p>
+  }
+  if (error) {
+    return <p>Error: {error}</p>
+  }
+
+  if (!scores) {
+    return <p>Score not found.</p>
+  }
+
+  return (
+    <div>
+      <div>Recently completed quizzes</div>
+      {scores.map((score) => (
+        <ProfileResultsQuizCard key={score.createdAt} score={score} />
+      ))}
+    </div>
+  )
 }

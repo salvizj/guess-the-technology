@@ -38,6 +38,11 @@ type Pages = {
       "id": string;
     };
   };
+  "/results/:id/questions": {
+    params: {
+      "id": string;
+    };
+  };
   "/profile": {
     params: {};
   };
@@ -63,11 +68,11 @@ type Pages = {
 type RouteFiles = {
   "root.tsx": {
     id: "root";
-    page: "/" | "/login" | "/register" | "/quizzes" | "/quizzes/:id" | "/play/:id" | "/results/:id" | "/profile" | "/admin" | "/admin/quizzes" | "/admin/quizzes/create" | "/admin/quizzes/:id/edit" | "/admin/users";
+    page: "/" | "/login" | "/register" | "/quizzes" | "/quizzes/:id" | "/play/:id" | "/results/:id" | "/results/:id/questions" | "/profile" | "/admin" | "/admin/quizzes" | "/admin/quizzes/create" | "/admin/quizzes/:id/edit" | "/admin/users";
   };
   "routes/layouts/MainLayout.tsx": {
     id: "routes/layouts/MainLayout";
-    page: "/" | "/login" | "/register" | "/quizzes" | "/quizzes/:id" | "/play/:id" | "/results/:id" | "/profile" | "/admin" | "/admin/quizzes" | "/admin/quizzes/create" | "/admin/quizzes/:id/edit" | "/admin/users";
+    page: "/" | "/login" | "/register" | "/quizzes" | "/quizzes/:id" | "/play/:id" | "/results/:id" | "/results/:id/questions" | "/profile" | "/admin" | "/admin/quizzes" | "/admin/quizzes/create" | "/admin/quizzes/:id/edit" | "/admin/users";
   };
   "routes/home.tsx": {
     id: "routes/home";
@@ -93,9 +98,13 @@ type RouteFiles = {
     id: "routes/quiz/play";
     page: "/play/:id";
   };
-  "routes/quiz/results.tsx": {
-    id: "routes/quiz/results";
+  "routes/quiz/results/overall.tsx": {
+    id: "routes/quiz/results/overall";
     page: "/results/:id";
+  };
+  "routes/quiz/results/questions.tsx": {
+    id: "routes/quiz/results/questions";
+    page: "/results/:id/questions";
   };
   "routes/layouts/ProtectedRoute.tsx": {
     id: "routes/layouts/ProtectedRoute";
@@ -140,7 +149,8 @@ type RouteModules = {
   "routes/quizzes/quizzes": typeof import("./app/routes/quizzes/quizzes.tsx");
   "routes/quizzes/preview": typeof import("./app/routes/quizzes/preview.tsx");
   "routes/quiz/play": typeof import("./app/routes/quiz/play.tsx");
-  "routes/quiz/results": typeof import("./app/routes/quiz/results.tsx");
+  "routes/quiz/results/overall": typeof import("./app/routes/quiz/results/overall.tsx");
+  "routes/quiz/results/questions": typeof import("./app/routes/quiz/results/questions.tsx");
   "routes/layouts/ProtectedRoute": typeof import("./app/routes/layouts/ProtectedRoute.tsx");
   "routes/profile": typeof import("./app/routes/profile.tsx");
   "routes/layouts/AdminLayout": typeof import("./app/routes/layouts/AdminLayout.tsx");

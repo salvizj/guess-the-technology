@@ -15,7 +15,8 @@ export default [
     route("quizzes/:id", "routes/quizzes/preview.tsx"),
 
     route("play/:id", "routes/quiz/play.tsx"),
-    route("results/:id", "routes/quiz/results.tsx"),
+    route("results/:id", "routes/quiz/results/overall.tsx"),
+    route("results/:id/questions", "routes/quiz/results/questions.tsx"),
 
     layout("routes/layouts/ProtectedRoute.tsx", [
       route("profile", "routes/profile.tsx"),
