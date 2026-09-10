@@ -11,7 +11,7 @@ const __dirname = path.dirname(__filename)
 
 export const postCreateQuiz = async (req, res) => {
   try {
-    const { title, description, questions: questionsData } = req.body
+    const { title, description, category, questions: questionsData } = req.body
 
     if (
       !title ||
@@ -38,7 +38,7 @@ export const postCreateQuiz = async (req, res) => {
     const newQuiz = db.transaction((tx) => {
       const quiz = tx
         .insert(quizzes)
-        .values({ title, description })
+        .values({ title, description, category })
         .returning()
         .get()
 
@@ -51,7 +51,6 @@ export const postCreateQuiz = async (req, res) => {
             description: q.description,
             imageUrl: q.finalImageUrl,
             difficulty: q.difficulty,
-            category: q.category,
           })
           .returning()
           .get()
@@ -133,7 +132,7 @@ export const getQuizById = async (req, res) => {
 export const putUpdateQuiz = async (req, res) => {
   try {
     const id = parseInt(req.params.id, 10)
-    const { title, questions: questionsData } = req.body
+    const { title, description, category, questions: questionsData } = req.body
 
     if (isNaN(id)) {
       return res.status(400).json({ message: "Invalid quiz ID" })
@@ -148,25 +147,42 @@ export const putUpdateQuiz = async (req, res) => {
       return res.status(404).json({ message: "Quiz not found" })
     }
 
+    let processedQuestions = null
+    if (Array.isArray(questionsData)) {
+      processedQuestions = await Promise.all(
+        questionsData.map(async (q) => ({
+          ...q,
+          finalImageUrl:
+            (await saveImage(q.image)) || q.image_url || q.imageUrl || null,
+        })),
+      )
+    }
+
     db.transaction((tx) => {
-      if (title) {
-        tx.update(quizzes).set({ title }).where(eq(quizzes.id, id)).run()
+      const updateData = {}
+      if (title !== undefined) updateData.title = title
+      if (description !== undefined) updateData.description = description
+      if (category !== undefined) updateData.category = category
+
+      if (Object.keys(updateData).length > 0) {
+        tx.update(quizzes).set(updateData).where(eq(quizzes.id, id)).run()
       }
 
-      if (Array.isArray(questionsData)) {
+      if (processedQuestions) {
         tx.delete(questions).where(eq(questions.quizId, id)).run()
 
-        for (const q of questionsData) {
-          const [question] = tx
+        for (const q of processedQuestions) {
+          const question = tx
             .insert(questions)
             .values({
               quizId: id,
               title: q.title,
-              imageUrl: q.image_url || q.imageUrl,
+              description: q.description,
+              imageUrl: q.finalImageUrl,
               difficulty: q.difficulty,
-              category: q.category,
             })
             .returning()
+            .get()
 
           if (Array.isArray(q.answers)) {
             for (const a of q.answers) {
@@ -217,9 +233,13 @@ export const getScoresByQuizId = async (req, res) => {
       return res.status(400).json({ message: "Invalid quiz ID" })
     }
 
-    const scores = db.select().from("scores").where(eq("quizId", quizId)).all()
+    const quizScores = db
+      .select()
+      .from(scores)
+      .where(eq(scores.quizId, quizId))
+      .all()
 
-    return res.status(200).json(scores)
+    return res.status(200).json(quizScores)
   } catch (error) {
     console.error("Get Scores By Quiz ID Error:", error)
     return res.status(500).json({ message: "Internal server error" })
@@ -233,9 +253,13 @@ export const getScoresByUserId = async (req, res) => {
       return res.status(400).json({ message: "Invalid user ID" })
     }
 
-    const scores = db.select().from("scores").where(eq("userId", userId)).all()
+    const userScores = db
+      .select()
+      .from(scores)
+      .where(eq(scores.userId, userId))
+      .all()
 
-    return res.status(200).json(scores)
+    return res.status(200).json(userScores)
   } catch (error) {
     console.error("Get Scores By User ID Error:", error)
     return res.status(500).json({ message: "Internal server error" })
@@ -249,7 +273,7 @@ export const getScoreByScoreId = async (req, res) => {
       return res.status(400).json({ message: "Invalid score ID" })
     }
 
-    const [score] = await db.select().from(scores).where(eq(scores.id, scoreId))
+    const [score] = db.select().from(scores).where(eq(scores.id, scoreId)).all()
 
     if (!score) {
       return res.status(404).json({ message: "Score not found" })

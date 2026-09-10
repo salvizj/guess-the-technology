@@ -18,9 +18,7 @@ export const questionSchema = z.object({
   difficulty: z.enum(["easy", "medium", "hard"], {
     message: "Select a valid difficulty",
   }),
-  category: z
-    .string()
-    .min(3, "Question category must be at least 3 characters"),
+
   answers: z
     .array(answerSchema)
     .min(2, "Each question requires at least 2 options")
@@ -34,6 +32,9 @@ export const quizSchema = z.object({
   description: z
     .string()
     .min(10, "Quiz description must be at least 10 characters"),
+  category: z
+    .string()
+    .min(3, "Question category must be at least 3 characters"),
   questions: z
     .array(questionSchema)
     .min(1, "Quiz must contain at least 1 question"),

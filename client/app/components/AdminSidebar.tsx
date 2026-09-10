@@ -1,7 +1,7 @@
 import { NavLink } from "react-router"
 import { Button } from "./base/Button"
 
-export const Sidebar = () => {
+export const AdminSidebar = () => {
   return (
     <aside className="w-64 min-h-screen bg-surface-elevated p-6 border-r border-border flex flex-col gap-2">
       <NavLink to="/admin" end>

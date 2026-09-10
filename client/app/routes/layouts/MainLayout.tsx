@@ -10,7 +10,7 @@ export default function MainLayout() {
     <div className="flex min-h-screen flex-col bg-surface text-content">
       <Navbar themeToggle={themeToggle} />
 
-      <main className="flex-1 flex flex-col justify-center items-center gap-4 p-4">
+      <main className="flex-1 flex flex-col justify-center items-center">
         <Outlet />
       </main>
 

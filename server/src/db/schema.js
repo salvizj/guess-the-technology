@@ -15,6 +15,7 @@ export const quizzes = sqliteTable("quizzes", {
   id: integer("id").primaryKey({ autoIncrement: true }),
   title: text("title").notNull(),
   description: text("description").notNull(),
+  category: text("category").notNull(),
   createdAt: text("created_at").default(sql`(CURRENT_TIMESTAMP)`),
 })
 
@@ -27,7 +28,6 @@ export const questions = sqliteTable("questions", {
   title: text("title").notNull(),
   imageUrl: text("image_url"),
   difficulty: text("difficulty").notNull(), // 'easy' | 'medium' | 'hard'
-  category: text("category").notNull(),
 })
 
 // 4. Answers Table

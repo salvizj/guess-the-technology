@@ -1,0 +1,17 @@
+export const QUIZ_CATEGORIES = [
+  "React",
+  "Angular",
+  "Vue",
+  "Svelte",
+  "Nodejs",
+  ".NET",
+  "Java Springboot",
+  "Django",
+  "Docker",
+  "Kubernetes",
+  "Azure",
+  "Github Actions",
+  "SQL Server",
+  "PostgressSQL",
+  "MongoDB",
+]

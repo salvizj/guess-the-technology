@@ -4,6 +4,7 @@ import type z from "zod"
 import { quizSchema, type QuizSchema } from "../../../schemas/quizSchema"
 import { clearFieldError } from "../../../utils/clearFieldErrors"
 import { Form } from "../../../components/base/Form"
+import { QUIZ_CATEGORIES } from "../../../constants/constants"
 
 type CreateQuizFormProps = {
   onSubmit: (formData: QuizSchema) => void
@@ -21,12 +22,12 @@ export const CreateQuizForm = ({
   const [formData, setFormData] = useState({
     title: "",
     description: "",
+    category: "",
     questions: [
       {
         title: "",
         image: "",
         difficulty: "easy",
-        category: "",
         answers: [
           { option_text: "", correct: true },
           { option_text: "", correct: false },
@@ -138,6 +139,19 @@ export const CreateQuizForm = ({
       error: validationErrors.description,
     },
     {
+      name: "category",
+      label: "Quiz category",
+      type: "select",
+      options: QUIZ_CATEGORIES,
+      placeholder: "Select category",
+      value: formData.category,
+      onChange: (value) => {
+        setFormData((prev) => ({ ...prev, category: value }))
+        clearFieldError("category", setValidationErrors)
+      },
+      error: validationErrors.category,
+    },
+    {
       name: "questions",
       label: "Questions",
       type: "array",
@@ -208,25 +222,7 @@ export const CreateQuizForm = ({
               ))
           },
         },
-        {
-          name: `questions.${qIndex}.category`,
-          label: "Category",
-          type: "text",
-          placeholder: "Category name",
-          value: question.category,
-          error: validationErrors[`questions.${qIndex}.category`],
-          onChange: (value) => {
-            ;(setFormData((prev) => {
-              const nextQuestions = [...prev.questions]
-              nextQuestions[qIndex].category = value
-              return { ...prev, questions: nextQuestions }
-            }),
-              clearFieldError(
-                `questions.${qIndex}.category`,
-                setValidationErrors,
-              ))
-          },
-        },
+
         {
           name: `questions.${qIndex}.answers`,
           label: "Answer Options",
