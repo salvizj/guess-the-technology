@@ -30,8 +30,11 @@ export function loader({ request }: Route.LoaderArgs) {
   return { theme }
 }
 export function Layout({ children }: { children: React.ReactNode }) {
+  const data = useLoaderData<typeof loader>()
+  const theme = data?.theme ?? "light"
+
   return (
-    <html lang="en">
+    <html lang="en" className={theme === "dark" ? "dark" : ""}>
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -48,15 +51,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-  const data = useLoaderData()
-  const theme = data?.theme ?? "light"
-
   return (
-    <div className={theme === "dark" ? "dark" : ""}>
-      <AuthProvider>
-        <Outlet />
-      </AuthProvider>
-    </div>
+    <AuthProvider>
+      <Outlet />
+    </AuthProvider>
   )
 }
 

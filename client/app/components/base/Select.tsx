@@ -1,5 +1,5 @@
 type SelectProps = {
-  label: string
+  label?: string
   error?: string
   options: string[]
   placeholder: string
@@ -29,7 +29,7 @@ export const Select = ({
       <select
         id={id}
         className={`
-          px-3 py-2 rounded-md border bg-surface-elevated text-content
+          h-10 px-3 py-2 text-sm leading-none rounded-md border bg-surface-elevated text-content
           focus:outline-none focus:ring-2 focus:ring-primary-light focus:border-primary
           disabled:opacity-50 disabled:cursor-not-allowed
           transition-colors 

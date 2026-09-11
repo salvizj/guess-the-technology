@@ -93,7 +93,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       throw error
     }
   }
-  console.log("auth", isAdmin, userId)
   return (
     <AuthContext.Provider
       value={{

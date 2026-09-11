@@ -32,25 +32,25 @@ export const Input = ({
         id={id}
         type={type}
         className={`
-    px-3 py-2 rounded-md border bg-surface-elevated text-content
-    placeholder:text-content-muted
-    focus:outline-none focus:ring-2 focus:ring-primary-light focus:border-primary
-    disabled:opacity-50 disabled:cursor-not-allowed
-    transition-colors
-    ${error ? "border-error" : "border-border"}
-    ${
-      type === "file"
-        ? `
-      file:mr-3 file:py-1.5 file:px-3
-      file:rounded-md file:border-0
-      file:bg-secondary file:text-white
-      file:cursor-pointer
-    `
-        : ""
-    }
-  `}
+          h-10 px-3 py-2 text-sm leading-none rounded-md border bg-surface-elevated text-content
+          placeholder:text-content-muted
+          focus:outline-none focus:ring-2 focus:ring-primary-light focus:border-primary
+          disabled:opacity-50 disabled:cursor-not-allowed
+          transition-colors
+          ${error ? "border-error" : "border-border"}
+          ${
+            type === "file"
+              ? `
+            file:mr-3 file:py-1 file:px-3
+            file:rounded-md file:border-0
+            file:bg-secondary file:text-white
+            file:cursor-pointer
+          `
+              : ""
+          }
+        `}
         placeholder={placeholder}
-        required={required ?? false}
+        required={required}
         value={value}
         onChange={onChange}
       />
