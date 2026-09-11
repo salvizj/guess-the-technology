@@ -15,7 +15,6 @@ type ProfileResultsQuizCardProps = {
 export const ProfileResultsQuizCard = ({
   score,
 }: ProfileResultsQuizCardProps) => {
-  const navigate = useNavigate()
   const [quiz, setQuiz] = useState<Quiz | null>(null)
   const { getQuiz, isLoading, error } = useQuiz()
   const { handleRedirectToPlayQuizzAgain, handleRedirectToResultQuestions } =
@@ -46,23 +45,24 @@ export const ProfileResultsQuizCard = ({
 
   return (
     <Card
-      className="flex flex-col justify-between gap-4 border border-border bg-surface-secondary p-5 hover:border-primary hover:bg-surface-secondary/50 hover:shadow-md"
-
+      className="flex flex-col max-w-sm justify-between gap-4 border border-border bg-surface-secondary p-5 hover:border-primary hover:bg-surface-secondary/50 hover:shadow-md"
       onClick={() => handleRedirectToResultQuestions(String(score.id))}
     >
       <div className="space-y-1.5">
-        <h3 className="line-clamp-1">{quiz.title}</h3>
-        <p className="line-clamp-2 text-content-secondary">
+        <h3 className="line-clamp-1 font-semibold">{quiz.title}</h3>
+        <p className="line-clamp-2 text-sm text-content-secondary">
           {quiz.description}
         </p>
       </div>
-      <div className="flex flex-row gap-4 border-b border-border/40 py-4">
-        <Pill icon={<Trophy />}>Score: {score.score}</Pill>
-        <Pill icon={<Trophy />}>Accuracy:</Pill>
-        <Pill icon={<CalendarIcon />}>
+
+      <div className="flex flex-wrap items-center gap-2 border-y border-border/40 py-3 text-xs">
+        <Pill icon={<Trophy className="h-4 w-4" />}>Score: {score.score}</Pill>
+        <Pill icon={<Trophy className="h-4 w-4" />}>Accuracy: %</Pill>
+        <Pill icon={<CalendarIcon className="h-4 w-4" />}>
           {timestampToDate(score.createdAt, "short")}
         </Pill>
-      </div>{" "}
+      </div>
+
       <Button
         onClick={() => handleRedirectToPlayQuizzAgain(String(score.quizId))}
       >

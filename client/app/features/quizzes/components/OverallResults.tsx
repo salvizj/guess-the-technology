@@ -21,15 +21,21 @@ export const OverallResults = ({
       </div>
 
       <div className="grid grid-cols-3 gap-4 py-4 text-center border-y border-gray-100">
-        <div>{score.score}</div>
+        <div>Total score: {score.score}</div>
       </div>
 
-      <div className="flex justify-center pt-2">
+      <div className="flex justify-center pt-2 gap-4">
         <Button
           onClick={() => onReviewQuestions(String(score.id))}
           variant="primary"
         >
           Review Questions
+        </Button>
+        <Button
+          onClick={() => onReviewQuestions(String(score.id))}
+          variant="outline"
+        >
+          Explore other quizzes
         </Button>
       </div>
     </Card>

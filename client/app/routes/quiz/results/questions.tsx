@@ -97,16 +97,18 @@ export default function ResultsQuestions() {
   }
 
   return (
-    <QuizQuestionCard
-      question={quiz.questions[currQArrIndex]}
-      selectedAnswers={score.userAnswers[quiz.questions[currQArrIndex].id]}
-      onNextQuestion={handleNextQuestion}
-      onPreviousQuestion={handlePreviousQuestion}
-      isLastQuestion={currQArrIndex === quiz.questions.length - 1}
-      isFirstQuestion={currQArrIndex === 0}
-      questionIndex={currQArrIndex}
-      mode={"result"}
-      onToOverall={handleToOverall}
-    />
+    <div className="py-12 w-full">
+      <QuizQuestionCard
+        question={quiz.questions[currQArrIndex]}
+        selectedAnswers={score.userAnswers[quiz.questions[currQArrIndex].id]}
+        onNextQuestion={handleNextQuestion}
+        onPreviousQuestion={handlePreviousQuestion}
+        isLastQuestion={currQArrIndex === quiz.questions.length - 1}
+        isFirstQuestion={currQArrIndex === 0}
+        questionIndex={currQArrIndex}
+        mode={"result"}
+        onToOverall={handleToOverall}
+      />
+    </div>
   )
 }

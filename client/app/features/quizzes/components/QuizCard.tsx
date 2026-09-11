@@ -14,7 +14,7 @@ export const QuizCard = ({ quiz }: QuizCardProps) => {
   const { handleRedirectToQuizPreview } = useQuizNavigation()
   return (
     <Card
-      className="flex flex-col justify-between gap-4 border border-border bg-surface-secondary p-5 hover:border-primary hover:bg-surface-secondary/50 hover:shadow-md"
+      className="flex max-w-sm flex-col justify-between gap-4 border border-border bg-surface-secondary p-5 hover:border-primary hover:bg-surface-secondary/50 hover:shadow-md"
       onClick={() => handleRedirectToQuizPreview(String(quiz.id))}
     >
       <div className="space-y-1.5">

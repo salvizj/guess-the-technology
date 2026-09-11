@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 import type { Quiz, Score } from "../../../types/types"
 import { useQuiz } from "../../../features/quizzes/hooks/useQuiz"
 import { OverallResults } from "../../../features/quizzes/components/OverallResults"
-import { handleRedirectToResultQuestions } from "../../../utils/redirects"
+import { useQuizNavigation } from "../../../features/quizzes/hooks/useQuizNavigation"
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -18,7 +18,7 @@ export default function ResultsOverall() {
   const { id } = useParams()
   const [score, setScore] = useState<Score | null>(null)
   const [quiz, setQuiz] = useState<Quiz | null>(null)
-
+  const { handleRedirectToResultQuestions } = useQuizNavigation()
   useEffect(() => {
     if (!id) return
     getScoreByScoreId(id as string)

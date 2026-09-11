@@ -84,38 +84,39 @@ export const QuizQuestionCard = ({
         })}
       </div>
 
-      <div className="flex items-center justify-between gap-4 pt-4">
-        {isFirstQuestion ? (
-          <span />
-        ) : (
-          <Button onClick={onPreviousQuestion} variant="secondary">
-            Previous
-          </Button>
-        )}
-
-        {isLastQuestion ? (
-          !isResultMode ? (
-            <Button onClick={onSubmit} variant="primary">
-              Submit
+      <div className="flex items-center justify-between gap-4 pt-4 ">
+        <div>
+          {!isFirstQuestion && (
+            <Button onClick={onPreviousQuestion} variant="secondary">
+              Previous
             </Button>
-          ) : (
-            <Button onClick={onToOverall} variant="primary">
-              To Overall results
-            </Button>
-          )
-        ) : (
-          <Button onClick={onNextQuestion} variant="primary">
-            Next
-          </Button>
-        )}
-      </div>
-      {isResultMode && !isLastQuestion && (
-        <div className="flex pt-4">
-          <Button onClick={onToOverall} variant="primary">
-            Skip to Overall results
-          </Button>
+          )}
         </div>
-      )}
+
+        <div className="flex items-center gap-2">
+          {isResultMode && !isLastQuestion && (
+            <Button onClick={onToOverall} variant="ghost">
+              Skip to Overall
+            </Button>
+          )}
+
+          {isLastQuestion ? (
+            !isResultMode ? (
+              <Button onClick={onSubmit} variant="primary">
+                Submit
+              </Button>
+            ) : (
+              <Button onClick={onToOverall} variant="primary">
+                Overall Results
+              </Button>
+            )
+          ) : (
+            <Button onClick={onNextQuestion} variant="primary">
+              Next
+            </Button>
+          )}
+        </div>
+      </div>
     </article>
   )
 }

@@ -39,11 +39,15 @@ export default function Profile() {
   }
 
   return (
-    <div>
-      <div>Recently completed quizzes</div>
-      {scores.map((score) => (
-        <ProfileResultsQuizCard key={score.createdAt} score={score} />
-      ))}
+    <div className="flex flex-col gap-6 p-6 sm:p-10">
+      <h1 className="text-3xl font-bold tracking-tight sm:text-5xl">
+        Recently completed quizzes
+      </h1>
+      <div className="flex flex-wrap gap-4">
+        {scores.map((score) => (
+          <ProfileResultsQuizCard key={score.createdAt} score={score} />
+        ))}
+      </div>
     </div>
   )
 }
