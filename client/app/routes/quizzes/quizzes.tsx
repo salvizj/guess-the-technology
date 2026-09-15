@@ -127,7 +127,9 @@ export default function Quizzes() {
               onChange={(e) => setValue("timeLimit", e.target.value)}
             />
           )}
-          <Button onClick={handleClearFilters}>Clear filters</Button>
+          <Button onClick={handleClearFilters} variant="outline">
+            Clear filters
+          </Button>
           <Button onClick={handleApplyingFilters}>Apply filters</Button>
         </div>
 

@@ -1,6 +1,13 @@
-import { Book, CalendarIcon, CircleQuestionMark, Swords } from "lucide-react"
+import {
+  Book,
+  CalendarIcon,
+  CircleQuestionMark,
+  Swords,
+  TimerIcon,
+  Infinity,
+} from "lucide-react"
 import { Pill } from "../../../components/base/Pill"
-import type { Quiz } from "../../../types/types"
+import { QuizType, type Quiz } from "../../../types/types"
 import { timestampToDate } from "../../../utils/timestampToDate"
 import { calculateQuizDifficulty } from "../../../utils/quizDifficullty"
 import { Card } from "../../../components/base/Card"
@@ -12,6 +19,8 @@ type QuizCardProps = {
 export const QuizCard = ({ quiz }: QuizCardProps) => {
   const quizDifficulty = calculateQuizDifficulty(quiz)
   const { handleRedirectToQuizPreview } = useQuizNavigation()
+  const timeLeftWholeMinutes = Math.floor(quiz.timeLimit / 60)
+  const timeLeftLeftoverSeconds = quiz.timeLimit - timeLeftWholeMinutes * 60
   return (
     <Card
       className="flex max-w-sm flex-col justify-between gap-4 border border-border bg-surface-secondary p-5 hover:border-primary hover:bg-surface-secondary/50 hover:shadow-md"
@@ -34,6 +43,18 @@ export const QuizCard = ({ quiz }: QuizCardProps) => {
         </Pill>
         <Pill icon={<Swords />}>Quiz difficulty: {quizDifficulty}</Pill>
         <Pill icon={<Book />}> {quiz.category}</Pill>
+        {quiz.type === QuizType.STANDART && (
+          <Pill icon={<TimerIcon />}>
+            <Infinity />
+          </Pill>
+        )}
+        {quiz.type === QuizType.TIMED && (
+          <Pill icon={<TimerIcon />}>
+            {timeLeftWholeMinutes}
+            {"m"} {timeLeftLeftoverSeconds}
+            {"s"}
+          </Pill>
+        )}
       </div>
     </Card>
   )
