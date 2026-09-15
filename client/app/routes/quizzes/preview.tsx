@@ -1,12 +1,18 @@
 import { useEffect, useState } from "react"
-import type { Quiz } from "../../types/types"
+import { QuizType, type Quiz } from "../../types/types"
 import type { Route } from "./+types/preview"
 import { useNavigate, useParams } from "react-router"
 import { Button } from "../../components/base/Button"
 import { timestampToDate } from "../../utils/timestampToDate"
 import { calculateQuizDifficulty } from "../../utils/quizDifficullty"
 import { Pill } from "../../components/base/Pill"
-import { CalendarIcon, CircleQuestionMark, Swords } from "lucide-react"
+import {
+  CalendarIcon,
+  CircleQuestionMark,
+  Swords,
+  TimerIcon,
+  Infinity,
+} from "lucide-react"
 import { useQuiz } from "../../features/quizzes/hooks/useQuiz"
 
 export function meta({}: Route.MetaArgs) {
@@ -50,6 +56,8 @@ export default function Preview() {
 
   const quizDifficulty = calculateQuizDifficulty(quiz)
 
+  const timeLeftWholeMinutes = Math.floor(quiz.timeLimit / 60)
+  const timeLeftLeftoverSeconds = quiz.timeLimit - timeLeftWholeMinutes * 60
   return (
     <>
       <div>
@@ -62,8 +70,20 @@ export default function Preview() {
           </Pill>
           <Pill icon={<CalendarIcon />}>
             {timestampToDate(quiz.createdAt, "short")}
-          </Pill>
+          </Pill>{" "}
           <Pill icon={<Swords />}>Quiz difficulty: {quizDifficulty}</Pill>
+          {quiz.type === QuizType.STANDART && (
+            <Pill icon={<TimerIcon />}>
+              <Infinity />
+            </Pill>
+          )}
+          {quiz.type === QuizType.TIMED && (
+            <Pill icon={<TimerIcon />}>
+              {timeLeftWholeMinutes}
+              {"m"} {timeLeftLeftoverSeconds}
+              {"s"}
+            </Pill>
+          )}
         </div>
         <div className="flex gap-4 mt-4">
           <Button variant="primary" onClick={handlePlayQuiz}>
