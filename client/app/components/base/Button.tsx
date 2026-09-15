@@ -91,6 +91,7 @@ export const Button = ({
     : variantClasses[variant]
   return (
     <button
+      {...rest}
       type={type}
       onClick={(e) => {
         e.stopPropagation()
@@ -98,7 +99,6 @@ export const Button = ({
       }}
       className={`${base} ${spacing} ${focus} ${appliedVariant} ${className}`}
       disabled={disabled}
-      {...rest}
     >
       {children}
     </button>

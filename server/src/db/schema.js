@@ -16,6 +16,8 @@ export const quizzes = sqliteTable("quizzes", {
   title: text("title").notNull(),
   description: text("description").notNull(),
   category: text("category").notNull(),
+  type: text("type").notNull(), // 'standart' | 'timed'
+  timeLimit: integer("timeLimit").notNull(), // if type === 'standart' def = 0
   createdAt: text("created_at").default(sql`(CURRENT_TIMESTAMP)`),
 })
 

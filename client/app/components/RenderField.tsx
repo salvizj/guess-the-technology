@@ -4,6 +4,10 @@ import { Input } from "./base/Input"
 import { Select } from "./base/Select"
 
 export const RenderField = ({ field }: { field: FieldConfig }) => {
+  if (field.render === false) {
+    return
+  }
+
   if (field.type === "array") {
     return (
       <div className="flex flex-col gap-6 w-full">

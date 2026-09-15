@@ -11,11 +11,20 @@ const __dirname = path.dirname(__filename)
 
 export const postCreateQuiz = async (req, res) => {
   try {
-    const { title, description, category, questions: questionsData } = req.body
+    const {
+      title,
+      description,
+      category,
+      type,
+      timeLimit,
+      questions: questionsData,
+    } = req.body
 
     if (
       !title ||
       !description ||
+      !type ||
+      !timeLimit ||
       !Array.isArray(questionsData) ||
       questionsData.length === 0
     ) {
@@ -38,7 +47,7 @@ export const postCreateQuiz = async (req, res) => {
     const newQuiz = db.transaction((tx) => {
       const quiz = tx
         .insert(quizzes)
-        .values({ title, description, category })
+        .values({ title, description, category, type, timeLimit })
         .returning()
         .get()
 
@@ -49,6 +58,8 @@ export const postCreateQuiz = async (req, res) => {
             quizId: quiz.id,
             title: q.title,
             description: q.description,
+            type: q.type,
+            timeLimit: q.timeLimit,
             imageUrl: q.finalImageUrl,
             difficulty: q.difficulty,
           })
@@ -132,7 +143,14 @@ export const getQuizById = async (req, res) => {
 export const putUpdateQuiz = async (req, res) => {
   try {
     const id = parseInt(req.params.id, 10)
-    const { title, description, category, questions: questionsData } = req.body
+    const {
+      title,
+      description,
+      category,
+      type,
+      timeLimit,
+      questions: questionsData,
+    } = req.body
 
     if (isNaN(id)) {
       return res.status(400).json({ message: "Invalid quiz ID" })
@@ -163,6 +181,8 @@ export const putUpdateQuiz = async (req, res) => {
       if (title !== undefined) updateData.title = title
       if (description !== undefined) updateData.description = description
       if (category !== undefined) updateData.category = category
+      if (type !== undefined) updateData.type = type
+      if (timeLimit !== undefined) updateData.timeLimit = timeLimit
 
       if (Object.keys(updateData).length > 0) {
         tx.update(quizzes).set(updateData).where(eq(quizzes.id, id)).run()
@@ -179,6 +199,8 @@ export const putUpdateQuiz = async (req, res) => {
               title: q.title,
               description: q.description,
               imageUrl: q.finalImageUrl,
+              timeLimit: q.timeLimit,
+              type: q.type,
               difficulty: q.difficulty,
             })
             .returning()

@@ -9,6 +9,7 @@ type BaseField = {
   placeholder?: string
   error?: string
   accept?: string
+  render?: boolean
 }
 
 export type PrimitiveFieldConfig = BaseField & {
@@ -35,10 +36,18 @@ export type ArrayFieldConfig = BaseField & {
   fields: FieldConfig[][]
 }
 
+export enum QuizType {
+  STANDART = "standart",
+  TIMED = "timed",
+}
+
 export type FieldConfig = PrimitiveFieldConfig | ArrayFieldConfig
 
-export type QuestionDifficulty = "easy" | "medium" | "hard"
-
+export enum QuestionDifficulty {
+  EASY = "easy",
+  MEDIUM = "medium",
+  HARD = "hard",
+}
 export type User = {
   id: number
   username: string
@@ -53,6 +62,8 @@ export type Quiz = {
   description: string
   createdAt: string
   category: string
+  type: QuizType
+  timeLimit: number
   questions: Question[]
 }
 

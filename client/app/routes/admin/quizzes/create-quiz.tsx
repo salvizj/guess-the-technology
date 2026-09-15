@@ -15,6 +15,7 @@ export default function CreateQuiz() {
   const { createQuiz, error } = useQuiz()
   const navigate = useNavigate()
   const onSubmit = async (formData: QuizSchema) => {
+    console.log("formdata", formData)
     try {
       const response = await createQuiz(formData)
 

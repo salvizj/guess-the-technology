@@ -27,7 +27,9 @@ export default function Quizzes() {
       .then((data) => setQuizzes(data))
       .catch(() => {})
   }, [])
-
+  if (quizzes.length === 0) {
+    return <p>No quizzes available yet.</p>
+  }
   return (
     <>
       <div className="flex flex-col gap-8">

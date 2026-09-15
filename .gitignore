@@ -1,12 +1,14 @@
-.env
-
-# React Router
-/.react-router/
+**/.react-router/
 **/build/
-node_modules/
+
 **/node_modules/
-**.sqlite*.sqlite
+
 *.db
+*.sqlite
+*.sqlite-journal
 **database.sqlite
-**/public/uploads
-**/drizzle/*
+
+**/public/uploads/
+**/drizzle/
+
+**.env

@@ -1,4 +1,5 @@
 import { z } from "zod"
+import { QuestionDifficulty, QuizType } from "../types/types"
 
 export const answerSchema = z.object({
   option_text: z.string().min(1, "Option text cannot be empty"),
@@ -15,7 +16,7 @@ export const questionSchema = z.object({
     .refine((val) => val === "" || val.startsWith("data:image/"), {
       message: "Must be a valid image file (PNG, JPEG, WebP, GIF, SVG)",
     }),
-  difficulty: z.enum(["easy", "medium", "hard"], {
+  difficulty: z.enum(QuestionDifficulty, {
     message: "Select a valid difficulty",
   }),
 
@@ -32,6 +33,10 @@ export const quizSchema = z.object({
   description: z
     .string()
     .min(10, "Quiz description must be at least 10 characters"),
+  type: z.enum(QuizType, {
+    message: "Select a valid type",
+  }),
+  timeLimit: z.coerce.number().min(1, "Enter a valid timelimit"),
   category: z
     .string()
     .min(3, "Question category must be at least 3 characters"),

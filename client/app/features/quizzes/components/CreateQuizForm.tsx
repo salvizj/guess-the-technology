@@ -1,5 +1,9 @@
 import { useState } from "react"
-import type { FieldConfig } from "../../../types/types"
+import {
+  QuestionDifficulty,
+  QuizType,
+  type FieldConfig,
+} from "../../../types/types"
 import type z from "zod"
 import { quizSchema, type QuizSchema } from "../../../schemas/quizSchema"
 import { clearFieldError } from "../../../utils/clearFieldErrors"
@@ -23,11 +27,13 @@ export const CreateQuizForm = ({
     title: "",
     description: "",
     category: "",
+    type: QuizType.STANDART,
+    timeLimit: 0,
     questions: [
       {
         title: "",
         image: "",
-        difficulty: "easy",
+        difficulty: QuestionDifficulty.EASY,
         answers: [
           { option_text: "", correct: true },
           { option_text: "", correct: false },
@@ -69,7 +75,7 @@ export const CreateQuizForm = ({
         {
           title: "",
           image: "",
-          difficulty: "easy",
+          difficulty: QuestionDifficulty.EASY,
           category: "",
           answers: [
             { option_text: "", correct: true },
@@ -150,6 +156,32 @@ export const CreateQuizForm = ({
         clearFieldError("category", setValidationErrors)
       },
       error: validationErrors.category,
+    },
+    {
+      name: "type",
+      label: "Quiz type",
+      type: "select",
+      options: Object.values(QuizType),
+      placeholder: "Select a type",
+      value: formData.type,
+      onChange: (value) => {
+        setFormData((prev) => ({ ...prev, type: value }))
+        clearFieldError("type", setValidationErrors)
+      },
+      error: validationErrors.type,
+    },
+    {
+      name: "timeLimit",
+      label: "Time limit",
+      type: "number",
+      placeholder: "Enter a timelimit",
+      value: formData.timeLimit,
+      onChange: (value) => {
+        setFormData((prev) => ({ ...prev, timeLimit: value }))
+        clearFieldError("timeLimit", setValidationErrors)
+      },
+      error: validationErrors.timeLimit,
+      render: formData.type === QuizType.TIMED,
     },
     {
       name: "questions",
