@@ -12,6 +12,7 @@ import { timestampToDate } from "../../../utils/timestampToDate"
 import { calculateQuizDifficulty } from "../../../utils/quizDifficullty"
 import { Card } from "../../../components/base/Card"
 import { useQuizNavigation } from "../hooks/useQuizNavigation"
+import { secondsToMinutesAndSeconds } from "../../../utils/time"
 
 type QuizCardProps = {
   quiz: Quiz
@@ -19,8 +20,7 @@ type QuizCardProps = {
 export const QuizCard = ({ quiz }: QuizCardProps) => {
   const quizDifficulty = calculateQuizDifficulty(quiz)
   const { handleRedirectToQuizPreview } = useQuizNavigation()
-  const timeLeftWholeMinutes = Math.floor(quiz.timeLimit / 60)
-  const timeLeftLeftoverSeconds = quiz.timeLimit - timeLeftWholeMinutes * 60
+  const { minutes, seconds } = secondsToMinutesAndSeconds(quiz.timeLimit)
   return (
     <Card
       className="flex max-w-sm flex-col justify-between gap-4 border border-border bg-surface-secondary p-5 hover:border-primary hover:bg-surface-secondary/50 hover:shadow-md"
@@ -50,8 +50,8 @@ export const QuizCard = ({ quiz }: QuizCardProps) => {
         )}
         {quiz.type === QuizType.TIMED && (
           <Pill icon={<TimerIcon />}>
-            {timeLeftWholeMinutes}
-            {"m"} {timeLeftLeftoverSeconds}
+            {minutes}
+            {"m"} {seconds}
             {"s"}
           </Pill>
         )}

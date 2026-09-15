@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react"
 import type { Route } from "./+types/play"
 import { QuizQuestionCard } from "../../features/quizzes/components/QuizQuestionCard"
-import type { Quiz } from "../../types/types"
+import { QuizType, type Quiz } from "../../types/types"
 import { useNavigate, useParams, useSearchParams } from "react-router"
 import { useAuthContext } from "../../context/useAuthContext"
 import { useQuiz } from "../../features/quizzes/hooks/useQuiz"
+import { TimerDisplay } from "../../components/TimerDisplay"
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -25,6 +26,7 @@ export default function Play() {
   const [searchParams, setSearchParams] = useSearchParams()
   const paramQ = parseInt(searchParams.get("q") || "", 10)
   const currQArrIndex = isNaN(paramQ) || paramQ < 1 ? 0 : paramQ - 1
+  const [timeRanOut, setTimeRanOut] = useState(false)
 
   useEffect(() => {
     if (!id) return
@@ -53,6 +55,12 @@ export default function Play() {
       setSearchParams({ q: "1" }, { replace: true })
     }
   }, [quiz, searchParams, setSearchParams])
+
+  useEffect(() => {
+    if (!quiz || quiz.type != QuizType.TIMED) return
+
+    if (timeRanOut) handleSubmit()
+  }, [timeRanOut, quiz])
 
   if (isLoading) {
     return <p>Loading...</p>
@@ -101,6 +109,8 @@ export default function Play() {
         userAnswers: selectedAnswerIds,
       }
 
+      console.log(scoreData)
+
       const res = await createScore(scoreData, String(quiz.id))
 
       if (res?.score?.id) {
@@ -137,6 +147,12 @@ export default function Play() {
   }
   return (
     <>
+      {quiz.type === QuizType.TIMED && (
+        <TimerDisplay
+          timeLeftInSeconds={quiz.timeLimit}
+          onTimeRanOut={() => setTimeRanOut(true)}
+        />
+      )}
       <QuizQuestionCard
         question={quiz.questions[currQArrIndex]}
         onAnswer={handleAnswer}

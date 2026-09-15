@@ -14,6 +14,7 @@ import {
   Infinity,
 } from "lucide-react"
 import { useQuiz } from "../../features/quizzes/hooks/useQuiz"
+import { secondsToMinutesAndSeconds } from "../../utils/time"
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -56,8 +57,7 @@ export default function Preview() {
 
   const quizDifficulty = calculateQuizDifficulty(quiz)
 
-  const timeLeftWholeMinutes = Math.floor(quiz.timeLimit / 60)
-  const timeLeftLeftoverSeconds = quiz.timeLimit - timeLeftWholeMinutes * 60
+  const { minutes, seconds } = secondsToMinutesAndSeconds(quiz.timeLimit)
   return (
     <>
       <div>
@@ -79,8 +79,8 @@ export default function Preview() {
           )}
           {quiz.type === QuizType.TIMED && (
             <Pill icon={<TimerIcon />}>
-              {timeLeftWholeMinutes}
-              {"m"} {timeLeftLeftoverSeconds}
+              {minutes}
+              {"m"} {seconds}
               {"s"}
             </Pill>
           )}
