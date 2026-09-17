@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react"
 import { useAuthContext } from "../context/useAuthContext"
-import { useQuiz } from "../features/quizzes/hooks/useQuiz"
+import { useQuiz } from "../context/quizzes/hooks/useQuiz"
 import type { Route } from "./+types/profile"
 import type { Score } from "../types/types"
 import { useNavigate } from "react-router"
-import { ProfileResultsQuizCard } from "../features/quizzes/components/ProfileResultsQuizCard"
+import { ProfileResultsQuizCard } from "../context/quizzes/components/ProfileResultsQuizCard"
 
 export function meta({}: Route.MetaArgs) {
   return [

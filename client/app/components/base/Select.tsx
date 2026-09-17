@@ -4,7 +4,7 @@ type SelectProps = {
   options: string[]
   placeholder: string
   value: string | number
-  onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void
+  onChange: (value: any) => void
 }
 
 export const Select = ({
@@ -16,6 +16,11 @@ export const Select = ({
   onChange,
 }: SelectProps) => {
   const id = `select-${label}`
+
+  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    onChange(e.target.value)
+  }
+
   return (
     <div className="flex flex-col gap-1">
       {label && (
@@ -36,7 +41,7 @@ export const Select = ({
           ${error ? "border-error" : "border-border"}
         `}
         value={value}
-        onChange={onChange}
+        onChange={handleChange}
       >
         {placeholder && (
           <option value="" disabled>

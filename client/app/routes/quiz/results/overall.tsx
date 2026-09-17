@@ -2,9 +2,9 @@ import { useNavigate, useParams, useSearchParams } from "react-router"
 import type { Route } from "./+types/overall"
 import { useEffect, useState } from "react"
 import type { Quiz, Score } from "../../../types/types"
-import { useQuiz } from "../../../features/quizzes/hooks/useQuiz"
-import { OverallResults } from "../../../features/quizzes/components/OverallResults"
-import { useQuizNavigation } from "../../../features/quizzes/hooks/useQuizNavigation"
+import { useQuiz } from "../../../context/quizzes/hooks/useQuiz"
+import { OverallResults } from "../../../context/quizzes/components/OverallResults"
+import { useQuizNavigation } from "../../../context/quizzes/hooks/useQuizNavigation"
 
 export function meta({}: Route.MetaArgs) {
   return [

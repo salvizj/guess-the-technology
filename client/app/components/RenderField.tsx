@@ -1,3 +1,4 @@
+import { el } from "zod/v4/locales"
 import type { FieldConfig } from "../types/types"
 import { Button } from "./base/Button"
 import { Input } from "./base/Input"
@@ -63,9 +64,7 @@ export const RenderField = ({ field }: { field: FieldConfig }) => {
         placeholder={field.placeholder ?? ""}
         options={field.options ?? []}
         value={field.value}
-        onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-          field.onChange(e.target.value)
-        }
+        onChange={field.onChange}
         error={field.error}
       />
     )
@@ -77,9 +76,8 @@ export const RenderField = ({ field }: { field: FieldConfig }) => {
         label={field.label}
         type={field.type}
         placeholder={field.placeholder ?? ""}
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-          field.onChange(e.target.files?.[0] ?? null)
-        }
+        onChange={field.onChange}
+
         error={field.error}
       />
     )
@@ -91,7 +89,7 @@ export const RenderField = ({ field }: { field: FieldConfig }) => {
       type={field.type}
       placeholder={field.placeholder ?? ""}
       value={field.value}
-      onChange={(e) => field.onChange(e.target.value)}
+      onChange={field.onChange}
       error={field.error}
     />
   )

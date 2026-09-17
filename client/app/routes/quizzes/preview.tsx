@@ -13,7 +13,7 @@ import {
   TimerIcon,
   Infinity,
 } from "lucide-react"
-import { useQuiz } from "../../features/quizzes/hooks/useQuiz"
+import { useQuiz } from "../../context/quizzes/hooks/useQuiz"
 import { secondsToMinutesAndSeconds } from "../../utils/time"
 
 export function meta({}: Route.MetaArgs) {

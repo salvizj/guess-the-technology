@@ -2,8 +2,8 @@ import { Navigate, useNavigate, useParams, useSearchParams } from "react-router"
 import type { Route } from "./+types/questions"
 import { useEffect, useState } from "react"
 import type { Quiz, Score } from "../../../types/types"
-import { QuizQuestionCard } from "../../../features/quizzes/components/QuizQuestionCard"
-import { useQuiz } from "../../../features/quizzes/hooks/useQuiz"
+import { QuizQuestionCard } from "../../../context/quizzes/components/QuizQuestionCard"
+import { useQuiz } from "../../../context/quizzes/hooks/useQuiz"
 
 export function meta({}: Route.MetaArgs) {
   return [

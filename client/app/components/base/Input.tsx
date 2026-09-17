@@ -1,11 +1,13 @@
+import { removeNonDigit } from "../../utils/removeNonDigit"
+
 type InputProps = {
   label?: string
   error?: string
   type: string
   placeholder: string
   required?: boolean
-  value?: string
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
+  value?: any
+  onChange: (value: any) => void
 }
 
 export const Input = ({
@@ -18,6 +20,20 @@ export const Input = ({
   onChange,
 }: InputProps) => {
   const id = `input-${label}`
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (type === "file") {
+      onChange(e.target.files?.[0] ?? null)
+      return
+    }
+
+    let input = e.target.value
+    if (type === "number") {
+      input = removeNonDigit(input)
+    }
+    onChange(input)
+  }
+
   return (
     <div className="flex flex-col gap-1">
       {label && (
@@ -30,7 +46,7 @@ export const Input = ({
       )}
       <input
         id={id}
-        type={type}
+        type={type === "number" ? "text" : type}
         className={`
           h-10 px-3 py-2 text-sm leading-none rounded-md border bg-surface-elevated text-content
           placeholder:text-content-muted
@@ -52,7 +68,7 @@ export const Input = ({
         placeholder={placeholder}
         required={required}
         value={value}
-        onChange={onChange}
+        onChange={handleChange}
       />
       {error && <span className="text-xs text-error">{error}</span>}
     </div>

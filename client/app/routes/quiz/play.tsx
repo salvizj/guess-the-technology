@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react"
 import type { Route } from "./+types/play"
-import { QuizQuestionCard } from "../../features/quizzes/components/QuizQuestionCard"
+import { QuizQuestionCard } from "../../context/quizzes/components/QuizQuestionCard"
 import { QuizType, type Quiz } from "../../types/types"
 import { useNavigate, useParams, useSearchParams } from "react-router"
 import { useAuthContext } from "../../context/useAuthContext"
-import { useQuiz } from "../../features/quizzes/hooks/useQuiz"
+import { useQuiz } from "../../context/quizzes/hooks/useQuiz"
 import { TimerDisplay } from "../../components/TimerDisplay"
 
 export function meta({}: Route.MetaArgs) {
