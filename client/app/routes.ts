@@ -11,15 +11,15 @@ export default [
     route("login", "routes/auth/login.tsx"),
     route("register", "routes/auth/register.tsx"),
 
-    route("quizzes", "routes/quizzes/quizzes.tsx"),
-    route("quizzes/:id", "routes/quizzes/preview.tsx"),
-
-    route("play/:id", "routes/quiz/play.tsx"),
-    route("results/:id", "routes/quiz/results/overall.tsx"),
-    route("results/:id/questions", "routes/quiz/results/questions.tsx"),
-
     layout("routes/layouts/ProtectedRoute.tsx", [
       route("profile", "routes/profile.tsx"),
+
+      route("quizzes", "routes/quizzes/quizzes.tsx"),
+      route("quizzes/:id", "routes/quizzes/preview.tsx"),
+
+      route("play/:id", "routes/quiz/play.tsx"),
+      route("results/:id", "routes/quiz/results/overall.tsx"),
+      route("results/:id/questions", "routes/quiz/results/questions.tsx"),
 
       layout("routes/layouts/AdminLayout.tsx", [
         route("admin", "routes/admin/dashboard.tsx"),

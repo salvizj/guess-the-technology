@@ -26,13 +26,6 @@ export const Navbar = ({ themeToggle }: NavbarProps) => {
                 Home
               </Button>
             )}
-          </NavLink>{" "}
-          <NavLink to="/quizzes" end>
-            {({ isActive }) => (
-              <Button variant="ghost" isActive={isActive}>
-                Quizzes
-              </Button>
-            )}
           </NavLink>
           {isAuthenticated ? (
             <div className="flex items-center gap-3">
@@ -45,6 +38,13 @@ export const Navbar = ({ themeToggle }: NavbarProps) => {
                   )}
                 </NavLink>
               )}
+              <NavLink to="/quizzes" end>
+                {({ isActive }) => (
+                  <Button variant="ghost" isActive={isActive}>
+                    Quizzes
+                  </Button>
+                )}
+              </NavLink>
               <NavLink to="/profile" end>
                 {({ isActive }) => (
                   <Button variant="ghost" isActive={isActive}>
@@ -52,7 +52,6 @@ export const Navbar = ({ themeToggle }: NavbarProps) => {
                   </Button>
                 )}
               </NavLink>
-
               <Button onClick={handleLogout} variant="outline">
                 Logout
               </Button>
